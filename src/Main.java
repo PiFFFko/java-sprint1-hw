@@ -55,50 +55,27 @@ public class Main {
     }
 
     private static void detectCommand(int command) {
-        Validator validator = new Validator();
         switch (command) {
             case (ENTER_STEPS_FOR_DAY_COMMAND): //Ввести количество шагов за определённый день;
-                int month = askMonth();
-                int day = askDay();
-                int steps = askSteps();
-                stepTracker.addDayStats(month, day, steps);
+                enterStepsForDay();
                 break;
             case (PRINT_STATISTICS_FOR_MONTH_COMMAND): //Напечатать статистику за определённый месяц;
-                month = askMonth();
-                int[] stats = stepTracker.getMonthStats(month);
-                int totalSteps = stepTracker.getTotalStepsPerMonth(month);
-                int maxSteps = stepTracker.getMaxStepsInMonth(month);
-                int avgSteps = stepTracker.getAvgStepsInMonth(month);
-                double kilometers = converter.convertStepsToKilometers(totalSteps);
-                double burnedKilocalorie = converter.convertStepsToCalorie(totalSteps);
-                int bestSeries = stepTracker.getBestSeries(month);
-                for (int i = 0; i < 30; i++) {
-                    System.out.println(String.format(DATA_LINE_PATTERN,i+1,stats[i]));
-                }
-                System.out.println(String.format(TOTAL_STEPS_LINE_PATTERN,month,totalSteps));
-                System.out.println(String.format(MAX_STEPS_LINE_PATTERN,month,maxSteps));
-                System.out.println(String.format(AVG_STEPS_LINE_PATTERN,month,avgSteps));
-                System.out.println(String.format(DISTANCE_LINE_PATTERN,month,kilometers));
-                System.out.println(String.format(BURNED_CALORIE_LINE_PATTERN,month,burnedKilocalorie));
-                System.out.println(String.format(BEST_SERIES_LINE_PATTERN,month,bestSeries));
+                printStatisticsForMonth();
                 break;
             case (CHANGE_STEP_GOAL_COMMAND): //Изменить цель по количеству шагов в день;
-                System.out.println(CURRENT_STEP_GOAL_MESSAGE + stepTracker.getStepGoal());
-                int goalValue = -1;
-                while (!validator.validateSteps(goalValue)) {
-                    System.out.println(SET_STEP_GOAL_MESSAGE);
-                    goalValue = scanner.nextInt();
-                }
-                stepTracker.setStepGoal(goalValue);
+                changeStepGoal();
                 break;
-            case (EXIT_COMMAND): //Выйти из приложения.
+            case (EXIT_COMMAND):
                 break;
             default:
-                System.out.println(NO_SUCH_COMMAND_MESSAGE);
+                System.out.println(NO_SUCH_COMMAND_MESSAGE); //Команды не существует
                 break;
         }
     }
 
+
+    //запрашивает у пользователя номер месяца до тех пор, пока не пройдет валидацию
+    //Номер месяца от 1 до 12
     public static int askMonth() {
         int month = -1;
         while (!validator.validateMonth(month)) {
@@ -108,15 +85,19 @@ public class Main {
         return month - 1;
     }
 
+    //запрашивает у пользователя номер дня до тех пор, пока не пройдет валидацию
+    //Номер дня от 1 до 30
     public static int askDay() {
         int day = -1;
         while (!validator.validateDay(day)) {
             System.out.println(ENTER_DAY_MESSAGE);
             day = scanner.nextInt();
         }
-        return day-1;
+        return day - 1;
     }
 
+    //askSteps() - запращивать у пользователя кол-во шагов до тех пор, пока не пройдет валидацию
+    //количество шагов должно быть неотрицательным
     public static int askSteps() {
         int steps = -1;
         while (!validator.validateSteps(steps)) {
@@ -124,6 +105,44 @@ public class Main {
             steps = scanner.nextInt();
         }
         return steps;
+    }
+
+    public static void changeStepGoal() {
+        System.out.println(CURRENT_STEP_GOAL_MESSAGE + stepTracker.getStepGoal());
+        int goalValue = -1;
+        while (!validator.validateSteps(goalValue)) {
+            System.out.println(SET_STEP_GOAL_MESSAGE);
+            goalValue = scanner.nextInt();
+        }
+        stepTracker.setStepGoal(goalValue);
+
+    }
+
+    public static void printStatisticsForMonth() {
+        int month = askMonth();
+        int[] stats = stepTracker.getMonthStats(month);
+        int totalSteps = stepTracker.getTotalStepsPerMonth(month);
+        int maxSteps = stepTracker.getMaxStepsInMonth(month);
+        int avgSteps = stepTracker.getAvgStepsInMonth(month);
+        double kilometers = converter.convertStepsToKilometers(totalSteps);
+        double burnedKilocalorie = converter.convertStepsToCalorie(totalSteps);
+        int bestSeries = stepTracker.getBestSeries(month);
+        for (int i = 0; i < 30; i++) {
+            System.out.println(String.format(DATA_LINE_PATTERN, i + 1, stats[i]));
+        }
+        System.out.println(String.format(TOTAL_STEPS_LINE_PATTERN, month, totalSteps));
+        System.out.println(String.format(MAX_STEPS_LINE_PATTERN, month, maxSteps));
+        System.out.println(String.format(AVG_STEPS_LINE_PATTERN, month, avgSteps));
+        System.out.println(String.format(DISTANCE_LINE_PATTERN, month, kilometers));
+        System.out.println(String.format(BURNED_CALORIE_LINE_PATTERN, month, burnedKilocalorie));
+        System.out.println(String.format(BEST_SERIES_LINE_PATTERN, month, bestSeries));
+    }
+
+    public static void enterStepsForDay() {
+        int month = askMonth();
+        int day = askDay();
+        int steps = askSteps();
+        stepTracker.addDayStats(month, day, steps);
     }
 
 }

@@ -5,12 +5,12 @@ public class Validator {
         return (day >= 1 & day <= 30);
     }
 
-    public boolean validateMonth(int month){
+    public boolean validateMonth(int month) {
         return (month >= 1 & month <= 12);
     }
 
-    public boolean validateSteps(int steps){
-        return steps>=0;
+    public boolean validateSteps(int steps) {
+        return steps >= 0;
     }
 
 }
