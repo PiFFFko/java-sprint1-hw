@@ -16,4 +16,8 @@ public class MonthData {
         return stepsPerDay[day];
     }
 
+    public void setStepPerDay(int day, int steps){
+        stepsPerDay[day] = steps;
+    }
+
 }

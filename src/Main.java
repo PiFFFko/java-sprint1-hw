@@ -73,7 +73,7 @@ public class Main {
                 double burnedKilocalorie = converter.convertStepsToCalorie(totalSteps);
                 int bestSeries = stepTracker.getBestSeries(month);
                 for (int i = 0; i < 30; i++) {
-                    System.out.println(String.format(DATA_LINE_PATTERN,i,stats[i]));
+                    System.out.println(String.format(DATA_LINE_PATTERN,i+1,stats[i]));
                 }
                 System.out.println(String.format(TOTAL_STEPS_LINE_PATTERN,month,totalSteps));
                 System.out.println(String.format(MAX_STEPS_LINE_PATTERN,month,maxSteps));
@@ -114,12 +114,12 @@ public class Main {
             System.out.println(ENTER_DAY_MESSAGE);
             day = scanner.nextInt();
         }
-        return day;
+        return day-1;
     }
 
     public static int askSteps() {
         int steps = -1;
-        while (!validator.validateDay(steps)) {
+        while (!validator.validateSteps(steps)) {
             System.out.println(ENTER_STEPS_MESSAGE);
             steps = scanner.nextInt();
         }

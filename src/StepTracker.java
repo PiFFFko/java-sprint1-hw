@@ -18,6 +18,7 @@ public class StepTracker {
     }
 
     public void addDayStats(int month, int day, int steps) {
+        monthData[month].setStepPerDay(day,steps);
     }
 
     public int getTotalStepsPerMonth(int month) {
