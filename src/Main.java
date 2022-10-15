@@ -20,7 +20,7 @@ public class Main {
     private static final int CHANGE_STEP_GOAL_COMMAND = 3;
     private static final int EXIT_COMMAND = 4;
 
-    private static final String DATA_LINE_PATTERN = "%s день:  %s";
+    private static final String DATA_LINE_PATTERN = "%s день:%s,";
     private static final String TOTAL_STEPS_LINE_PATTERN = "Общее количество шагов за %s-й месяц - %s";
     private static final String MAX_STEPS_LINE_PATTERN = "Максимальное количество шагов за %s-й месяц - %s";
     private static final String AVG_STEPS_LINE_PATTERN = "Среднее количество шазгов за %s-й месяц - %s";
@@ -31,6 +31,8 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     static Validator validator = new Validator();
     static Converter converter = new Converter();
+    public static final int amountDays = 30;
+    public static final int amountMonth = 12;
 
     public static void main(String[] args) {
         int command = 0;
@@ -127,9 +129,10 @@ public class Main {
         double kilometers = converter.convertStepsToKilometers(totalSteps);
         double burnedKilocalorie = converter.convertStepsToCalorie(totalSteps);
         int bestSeries = stepTracker.getBestSeries(month);
-        for (int i = 0; i < 30; i++) {
-            System.out.println(String.format(DATA_LINE_PATTERN, i + 1, stats[i]));
+        for (int i = 0; i < amountDays; i++) {
+            System.out.print(String.format(DATA_LINE_PATTERN, i + 1, stats[i]));
         }
+        System.out.println();
         System.out.println(String.format(TOTAL_STEPS_LINE_PATTERN, month, totalSteps));
         System.out.println(String.format(MAX_STEPS_LINE_PATTERN, month, maxSteps));
         System.out.println(String.format(AVG_STEPS_LINE_PATTERN, month, avgSteps));

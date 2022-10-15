@@ -5,7 +5,7 @@ public class StepTracker {
 
     public StepTracker() {
         monthData = new MonthData[12];
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < Main.amountMonth; i++)
             monthData[i] = new MonthData();
     }
 
@@ -23,7 +23,7 @@ public class StepTracker {
 
     public int getTotalStepsPerMonth(int month) {
         int steps = 0;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < Main.amountDays; i++) {
             steps += monthData[month].getStepPerDay(i);
         }
         return steps;
@@ -32,7 +32,7 @@ public class StepTracker {
     public int getMaxStepsInMonth(int month) {
         int maxSteps = 0;
         int steps = 0;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < Main.amountDays; i++) {
             steps = monthData[month].getStepPerDay(i);
             if (steps > maxSteps) {
                 maxSteps = steps;
@@ -43,7 +43,7 @@ public class StepTracker {
 
     public int getAvgStepsInMonth(int month) {
         int steps = getTotalStepsPerMonth(month);
-        int avgSteps = Math.round(steps / 30);
+        int avgSteps = Math.round(steps / Main.amountDays);
         return avgSteps;
     }
 
@@ -52,14 +52,16 @@ public class StepTracker {
         int bestSeries = 0;
         int curBestSeries = 0;
         int steps;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < Main.amountDays; i++) {
             steps = monthData[month].getStepPerDay(i);
+            //Если количество шагов превосходит цель, то увеличиваем значение текущей серии и
+            //проверяем больше ли она лучшей серии. Если количество шагов меньше, то сбиваем серию
             if (steps >= stepGoal) {
                 curBestSeries++;
-            } else {
                 if (curBestSeries >= bestSeries) {
                     bestSeries = curBestSeries;
                 }
+            } else {
                 curBestSeries = 0;
             }
         }

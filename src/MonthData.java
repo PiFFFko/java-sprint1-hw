@@ -5,7 +5,7 @@ public class MonthData {
 
 
     public MonthData() {
-        stepsPerDay = new int[30];
+        stepsPerDay = new int[Main.amountDays];
     }
 
     public int getStepPerDay(int day) {
