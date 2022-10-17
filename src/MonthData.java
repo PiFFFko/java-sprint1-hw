@@ -1,11 +1,9 @@
-import java.util.Random;
-
 public class MonthData {
     int[] stepsPerDay;
 
 
     public MonthData() {
-        stepsPerDay = new int[Main.amountDays];
+        stepsPerDay = new int[Main.AMOUNT_DAYS];
     }
 
     public int getStepPerDay(int day) {
